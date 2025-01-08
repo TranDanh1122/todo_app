@@ -72,11 +72,11 @@ function App() {
           <i onClick={() => setTheme("dark")} className={clsx(" w-7 h-7 bg-white cursor-pointer", {
             "block": theme == "light",
             "hidden": theme != "light"
-          })} style={{ mask: "url(./images/icon-moon.svg) center / cover no-repeat", WebkitMask: "url(./images/icon-moon.svg) center / cover no-repeat" }}></i>
+          })} style={{ mask: "url(./assets/images/icon-moon.svg) center / cover no-repeat", WebkitMask: "url(./assets/images/icon-moon.svg) center / cover no-repeat" }}></i>
           <i onClick={() => setTheme("light")} className={clsx(" w-7 h-7 bg-white cursor-pointer", {
             "block": theme != "light",
             "hidden": theme == "light"
-          })} style={{ mask: "url(./images/icon-sun.svg) center / cover no-repeat", WebkitMask: "url(./images/icon-sun.svg) center /cover no-repeat" }}></i>
+          })} style={{ mask: "url(./assets/images/icon-sun.svg) center / cover no-repeat", WebkitMask: "url(./assets/images/icon-sun.svg) center /cover no-repeat" }}></i>
         </header>
         <TodoItem theme={theme} type="add" onSaveOrComplete={(type, value, itemId) => handleSaveOrComplete(type, value, itemId)} />
 
