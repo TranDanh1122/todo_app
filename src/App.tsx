@@ -34,6 +34,13 @@ function App() {
       setTodo(newTodo)
     }
   }
+  const handleDelete = (itemId?: number) => {
+    if (!itemId) return
+    const deletedIndex = todo.findIndex(el => el.id == itemId)
+    if (deletedIndex <= -1) return
+    const newTodo = todo.filter(el => el.id != itemId)
+    setTodo(newTodo)
+  }
   return (
     <div className={clsx("w-full h-full min-h-[100vh] bg-fixed bg-contain bg-top bg-no-repeat bg-clip-border", {
       "bg-[#FAFAFA] bg-[url(./images/bg-desktop-light.jpg)] mb:bg-[url(./images/bg-mobile-light.jpg)]": theme == "light",
@@ -62,7 +69,7 @@ function App() {
               (todo.length == 0) ?
                 <p className={clsx("text-[2rem] ", { "text-white": theme != "light", "text-[#C8CBE7]": theme == "light" })}>You clear all task, very nice!!!</p>
                 :
-                todo.map((el: Todo) => <TodoItem theme={theme} item={el} key={el.id} type="input" onSaveOrComplete={(type, value, itemId) => handleSaveOrComplete(type, value, itemId)} />)
+                todo.map((el: Todo) => <TodoItem onDelete={(itemId) => handleDelete(itemId)} theme={theme} item={el} key={el.id} type="input" onSaveOrComplete={(type, value, itemId) => handleSaveOrComplete(type, value, itemId)} />)
             }
           </div>
 
@@ -87,7 +94,7 @@ function App() {
 }
 
 export default App
-export function TodoItem({ item, theme, type, onSaveOrComplete }: { item?: Todo, theme: Theme, type: string, onSaveOrComplete: (type: string, value: string, itemId?: number) => void }): React.JSX.Element {
+export function TodoItem({ item, theme, type, onSaveOrComplete, onDelete }: { item?: Todo, theme: Theme, type: string, onSaveOrComplete: (type: string, value: string, itemId?: number) => void, onDelete?: (itemId?: number) => void }): React.JSX.Element {
   const [inputValue, setValue] = React.useState<string>(item?.text ?? "")
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)
 
@@ -119,7 +126,7 @@ export function TodoItem({ item, theme, type, onSaveOrComplete }: { item?: Todo,
       {
         (type != "add")
           ?
-          <i className={clsx("w-5 h-5 deleteIcon", {
+          <i onClick={() => onDelete?.(item?.id)} className={clsx("w-5 h-5 deleteIcon", {
             "bg-[#494C6B]": theme == "light",
             "bg-[#5B5E7E]": theme != "light"
           })} style={{ mask: "url(./images/icon-cross.svg) center / cover no-repeat", WebkitMask: "url(./images/icon-cross.svg) center /cover no-repeat" }}></i>
